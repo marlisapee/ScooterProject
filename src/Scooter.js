@@ -5,7 +5,7 @@ class Scooter {
   constructor(station) {
     this.station = station || null;
     this.user = null;
-    this.serial = Scooter.nextSerial + 1;
+    this.serial = Scooter.nextSerial++;
     this.charge = 100;
     this.isBroken = false;
   }

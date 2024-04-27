@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon src/index.js",
     "test": "jest --watch-all --verbose",
     "test:coverage": "jest --verbose --collect-coverage"
   },
@@ -11,5 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "jest": "^29.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }

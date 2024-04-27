@@ -46,9 +46,7 @@ class ScooterApp {
   createScooter(station) {
     let newScooter = new Scooter(station);
     if (station in this.stations) {
-      console.log(this.stations[station]);
       this.stations[station].push(newScooter);
-      console.log(this.stations[station]);
       return 'new scooter created...';
     } else {
       throw new Error('no such station exists...');
