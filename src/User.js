@@ -8,14 +8,16 @@ class User {
 
   login(password) {
     if (password === this.password) {
-      console.log('Logged in successfully');
+      this.loggedIn = true;
+      return 'Logged in successfully';
     } else {
       throw new Error('Username or Password was incorrect');
     }
   }
 
   logout() {
-    console.log('Logged out successfully');
+    this.loggedIn = false;
+    return 'Logged out successfully';
   }
 }
 
