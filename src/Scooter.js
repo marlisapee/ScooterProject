@@ -23,6 +23,13 @@ class Scooter {
     this.station = station;
     console.log(`Scooter has been returned to station ${station}`);
   }
+
+  async recharge() {
+    console.log('starting charge...');
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    this.charge = 100;
+    console.log('charging complete...');
+  }
 }
 
 module.exports = Scooter;

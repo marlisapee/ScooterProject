@@ -9,6 +9,22 @@ class ScooterApp {
       Manhattan: [],
     };
     this.registeredUsers = {};
+    this.rentedScooters = [];
+  }
+
+  getScooter(serial) {
+    for (const station in this.stations) {
+      const scooterList = this.stations[station];
+
+      const index = scooterList.findIndex(
+        (dockedScooter) => dockedScooter.serial === serial
+      );
+
+      if (index !== -1) {
+        const scooter = scooterList[index];
+        return scooter;
+      }
+    }
   }
 
   registerUser(username, password, age) {
@@ -23,13 +39,15 @@ class ScooterApp {
       throw new Error('User is already registered..');
     }
   }
-
+  //! fix test
   loginUser(username, password) {
     if (username in this.registeredUsers) {
       let user = this.registeredUsers[username];
       try {
         user.login(password);
-        return 'user has been logged in';
+        console.log(`user ${username} has been logged in`);
+        return user;
+        // return 'user has been logged in';
       } catch (error) {
         return error.message;
       }
@@ -41,6 +59,7 @@ class ScooterApp {
   logoutUser(username) {
     let user = this.registeredUsers[username];
     user.logout();
+    return user;
   }
 
   createScooter(station) {
@@ -55,16 +74,21 @@ class ScooterApp {
 
   dockScooter(scooter, station) {
     const scooterList = this.stations[station];
+    console.log('scooter list at station:', scooterList);
 
     if (station in this.stations) {
       const index = scooterList.findIndex(
-        (scooter) => scooter.station === station
+        (scooterInList) => scooterInList.serial === scooter.serial
       );
       if (index !== -1) {
         return 'scooter already at station';
       } else {
         this.stations[station].push(scooter);
-        return 'scooter is docked';
+        const index = this.rentedScooters.findIndex(
+          (rentedScooter) => scooter.serial === rentedScooter.serial
+        );
+        this.rentedScooters.splice(index, 1);
+        return 'scooter has been docked';
       }
     } else {
       return 'no such station exists...';
@@ -85,6 +109,8 @@ class ScooterApp {
         const [scooter] = scooterList.splice(index, 1);
         // assign to user
         scooter.user = user;
+        // add to rented scooters list
+        this.rentedScooters.push(scooter);
         return 'scooter has been rented';
       }
     }
@@ -93,16 +119,18 @@ class ScooterApp {
   }
 
   print() {
-    console.log('Registered Users: ', this.registeredUsers);
-    console.log('List of Stations and their Scooters');
+    console.log('**** Registered Users ****', this.registeredUsers);
+    console.log('**** List of Stations and their Scooters ****');
     for (const station in this.stations) {
       const scooterList = this.stations[station];
       console.log(`Station: ${station} | Num Scooters: ${scooterList.length}`);
       scooterList.map((scooter) => {
-        console.log(`Scooter: ${scooter.serial}`);
+        console.log(`Scooter #${scooter.serial}`);
         console.log(scooter);
       });
     }
+    console.log('**** Rented Scooters ****');
+    console.log(this.rentedScooters);
   }
 }
 
