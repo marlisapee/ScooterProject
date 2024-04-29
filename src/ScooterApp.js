@@ -119,8 +119,11 @@ class ScooterApp {
   }
 
   print() {
-    console.log('**** Registered Users ****', this.registeredUsers);
-    console.log('**** List of Stations and their Scooters ****');
+    console.log('_________________________________________________________');
+    console.log('********** Registered Users **********');
+    console.log(this.registeredUsers);
+    console.log('_________________________________________________________');
+    console.log('********** List of Stations and their Scooters **********');
     for (const station in this.stations) {
       const scooterList = this.stations[station];
       console.log(`Station: ${station} | Num Scooters: ${scooterList.length}`);
@@ -129,7 +132,8 @@ class ScooterApp {
         console.log(scooter);
       });
     }
-    console.log('**** Rented Scooters ****');
+    console.log('_________________________________________________________');
+    console.log('*********** Rented Scooters **********');
     console.log(this.rentedScooters);
   }
 }
