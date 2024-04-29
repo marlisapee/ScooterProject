@@ -9,6 +9,7 @@ class User {
   login(password) {
     if (password === this.password) {
       this.loggedIn = true;
+      console.log('logged in: ', this.username, this.loggedIn);
       return 'Logged in successfully';
     } else {
       throw new Error('Username or Password was incorrect');

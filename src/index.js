@@ -1,23 +1,13 @@
-const Scooter = require('./Scooter');
+const prompt = require('prompt-sync')({ sigint: true });
+
 const ScooterApp = require('./ScooterApp');
 const User = require('./User');
 
+// 1. create new app
 const app = new ScooterApp();
 console.log('New Scooter App', app);
 
-// new users
-const user1 = new User('Phil Dunphy', 'password', 45);
-const user2 = new User('Claire Dunphy', 'password', 45);
-const user3 = new User('Luke Dunphy', 'password', 20);
-
-// register users to scooter app
-app.registerUser(user1.username, user1.password, user1.age);
-app.registerUser(user2.username, user2.password, user2.age);
-app.registerUser(user3.username, user3.password, user3.age);
-
-console.log(app.print());
-
-// add scooters to stations
+// 2. add scooters to stations
 app.createScooter('Queens');
 app.createScooter('Manhattan');
 app.createScooter('Brooklyn');
@@ -25,4 +15,52 @@ app.createScooter('Queens');
 app.createScooter('Manhattan');
 app.createScooter('Brooklyn');
 
-console.log(app.print());
+// 3. retrieve scooters
+const scooter1 = app.getScooter(1);
+const scooter2 = app.getScooter(2);
+
+// ********* Prompt Sync ********* //
+
+let user;
+
+const welcome = prompt(
+  `Welcome to Rent-a-Scooter! Would you like to register for a new account? Type in 'yes' or 'no' `
+);
+
+if (welcome === 'yes') {
+  // 1. register new user with input
+  const username = prompt('Type in your new username: ');
+  const password = prompt('Type in your new password: ');
+  const age = prompt('What is your age? ');
+
+  user = app.registerUser(username, password, age);
+}
+
+const login = prompt(`Are you ready to login? Type 'yes' or 'no'`);
+
+if (login === 'yes') {
+  try {
+    const username = prompt('Type in username: ');
+    const password = prompt('Type in password: ');
+    app.loginUser(username, password);
+  } catch (error) {
+    console.log(error.message);
+  }
+} else return;
+
+const rent = prompt(
+  `Would you like to rent a scooter? Please type 'yes' or 'no' `
+);
+
+if (rent === 'yes') {
+  console.log(app.rentScooter(scooter1, user));
+}
+
+app.print();
+
+// todo
+// 1. error messages in console
+// 2. create functions instead of hardcoding to keep it organized
+// 3. use arrows in the console instead of typing yes or no to avoid errors
+// 4. clean up unnecessary console logs
+// 5. implement charging scenario
